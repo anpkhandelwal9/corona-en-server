@@ -1,43 +1,41 @@
 <!DOCTYPE html>
 <html>
 <head>
-<style>
-#customers {
-  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-  border-collapse: collapse;
-  width: 100%;
-  font-family: 'Courier New', Courier, monospace;
-}
-
-#customers td, #customers th {
-  border: 1px solid #ddd;
-  padding: 8px;
-}
-
-#customers tr:nth-child(even){background-color: #f2f2f2;}
-
-#customers tr:hover {background-color: #ddd;}
-
-#customers th {
-  padding-top: 12px;
-  padding-bottom: 12px;
-  text-align: left;
-  background-color:brown;
-  color: white;
-}
-</style>
-</head>
-<body>
-<table id="customers">
-    <tr>
-        <th>Title</th>
-        <th>Posted Time</th>
-    </tr>
+        <link href="{{ url_for('static', filename='custom.css') }}" rel="stylesheet" type="text/css" >
+        <link href="{{ url_for('static', filename='bootstrap.min.css') }}" rel="stylesheet" type="text/css" >
+    </head>
+    <body>
+    <p class="h4">필터 선택</p>
+    <form action="/news/kr" id="siteSelection" method="GET" class="form-inline">
+        <div class="form-group mx-sm-3 mb-2">
+            <select form="siteSelection" name="site" id="site" class="form-control" required>
+                {% for option_site in option_list %}
+                    {% if option_site[0] == site %}
+                        <option value="{{option_site[0]}}" selected="selected">{{option_site[1]}}</option>
+                    {% else %}
+                        <option value="{{option_site[0]}}">{{option_site[1]}}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+        <input class="btn btn-primary mb-2" type="submit" value="Submit">
+    </form>
+<table class="table table-hover">
+    <thead class="thead-dark">
+        <tr>
+            <th>제목</th>
+            <th>시간</th>
+            <th>출처</th>
+        </tr>
+    </thead>
+    <tbody>
     {% for item in news %}
       <tr>
-        <td><a href="{{ item[3] }}">{{ item[1] }}</a></td>
+        <td><a href="{{ item[3] }}" target="_blank">{{ item[1] }}</a></td>
         <td>{{ item[2] }}</td>
+        <td>{{ item[4] }}</td>
       </tr>
     {% endfor %}
+    </tbody>
 </table>
 </body>
